@@ -1,13 +1,18 @@
 import json
+import os
 
-note_title = input('Write the title: ')
-note_body = input('Write the body: ')
+title = input('Write the title: ')
+body = input('Write the body: ')
 
-note = {
-    'title' : note_title,
-    'body' : note_body
-    }
+def add_note(note_title, note_body):
+    note = {
+        'title' : note_title,
+        'body' : note_body
+        }
 
-data = json.dumps(note, indent=4)
+    if not os.path.isfile('notes_db.json'):
+        with open('notes_db.json', 'w') as file:
+            json.dump(note, file, indent=4)
+            print('db created')
 
-print(data)
+add_note(title, body)
