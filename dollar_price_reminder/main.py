@@ -1,5 +1,5 @@
-import requests
+from sodapy import Socrata
 
-base_url = ''
+client = Socrata('www.datos.gov.co', None)
 
-params = {}
+results = client.get("ceyp-9c7c", limit=2000)
