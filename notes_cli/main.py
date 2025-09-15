@@ -12,7 +12,7 @@ def get_notes():
 def add_note(note_title, note_body):
     notes_data = get_notes()
 
-    note_id = notes_data[-1].get('id', '') + 1 if len(notes_data) > 0 else 1
+    note_id = notes_data[-1]['id'] + 1 if notes_data else 1
 
     note = {
         'id' : note_id,
