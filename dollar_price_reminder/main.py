@@ -18,7 +18,7 @@ def set_date_limit() -> str:
 
     return formatted_date_limit
 
-def get_dollar_value(date_limit: str) -> float | str:
+def get_dollar_value(date_limit: str) -> float | None:
     params = {
         'vigenciahasta' : date_limit
     }
@@ -28,7 +28,7 @@ def get_dollar_value(date_limit: str) -> float | str:
     data = response.json()
 
     if not data:
-        return 'No data returned from API'
+        return None
     
     dollar_value = float(data[0].get('valor', ''))
 
@@ -67,7 +67,7 @@ def main() -> None:
         email_data = set_email(dollar_value)
         send_email(email_data)
     else:
-        print(dollar_value)
+        print('Error, no se pudo retornar valor del dolar')
 
 if __name__ == "__main__":
     main()
