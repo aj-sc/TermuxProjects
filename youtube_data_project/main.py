@@ -17,7 +17,7 @@ def get_video_stats(video_id: list, api_key: str = API_KEY, url: str = BASE_URL)
     params = {
          'key' : api_key,
          'id' : joined_ids,
-         'part' : 'statistics,fileDetails,snippet'
+         'part' : 'statistics,contentDetails,snippet'
         }
 
     video_stats_list = []
@@ -36,7 +36,7 @@ def get_video_stats(video_id: list, api_key: str = API_KEY, url: str = BASE_URL)
                         'video_id' : video.get('id', ''),
                         'video_title' : video.get('snippet', {}).get('title', ''),
                         'published_date' : video.get('snippet', {}).get('publishedAt', ''),
-                        'duration' : video.get('fileDetails', {}).get('durationMs', ''),
+                        'duration' : video.get('contentDetails', {}).get('duration', ''),
                         'likes' : video.get('statistics', {}).get('likeCount', ''),
                         'views' : video.get('statistics', {}).get('viewCount', ''),
                         'comments' : video.get('statistics', {}).get('commentCount', ''),
@@ -80,8 +80,8 @@ def main() -> None:
     id_string = get_video_ids()
     video_list = get_video_stats(id_string)
 
-    with open('test.json', 'w') as file:
-        json.dump(video_list, file, indent=4)
+    with open('test.json', 'w', encoding='utf-8') as file:
+        json.dump(video_list, file, indent=4, ensure_ascii=False)
         print('Test file saved')
 
 if __name__ == '__main__':
