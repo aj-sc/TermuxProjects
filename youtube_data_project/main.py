@@ -80,9 +80,8 @@ def main() -> None:
     id_string = get_video_ids()
     video_list = get_video_stats(id_string)
 
-    with open('test.json', 'w', encoding='utf-8') as file:
-        json.dump(video_list, file, indent=4, ensure_ascii=False)
-        print('Test file saved')
+    with open("test.json", "w", encoding="utf-8") as f:
+        json.dump(video_list, f, indent=4, ensure_ascii=False)
 
 if __name__ == '__main__':
     main()
