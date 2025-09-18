@@ -1,5 +1,5 @@
-notes_cli/venv/
-dollar_price_reminder/.env
-dollar_price_reminder/venv/
-data_project/venv/
-data_project/.env
+notes_cli_project/venv/
+dollar_exhange_project/.env
+dollar_exchange_project/venv/
+youtube_data_project/.env
+youtube_data_project/venv/
