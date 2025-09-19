@@ -1,5 +1,6 @@
 dollar_exchange_project/.env
-dollar_exchange_project/venv/
+dollar_exchange_project/dollar-venv/
 youtube_data_project/.env
-youtube_data_project/venv/
-notes_cli_project/venv/
+youtube_data_project/yt-venv/
+notes_cli_project/notes-venv/
+flask_test_project/flask-venv/
