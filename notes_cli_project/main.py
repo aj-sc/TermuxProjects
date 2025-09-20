@@ -1,36 +1,43 @@
-import json
-
-title = input('Write the title: ')
-body = input('Write the body: ')
-
-def get_notes() -> list:
-    with open('notes_db.json', 'r') as file:
-        data = json.load(file)
-
-    if not data:
-        return []
-
-    return data
-
-def add_note(note_title, note_body) -> None:
-    notes_data = get_notes()
-
-    note_id = notes_data[-1]['id'] + 1 if notes_data else 1
-
-    note = {
-        'id' : note_id,
-        'title' : note_title,
-        'body' : note_body
-        }
-
-    notes_data.append(note)
-
-    with open('notes_db.json', 'w') as file:
-        json.dump(notes_data, file, indent=4)
-        print('Note added to db')
+from db_operations import get_db, add_note, list_active_notes
 
 def main() -> None:
-    pass
+    while True:
+        print("""Welcome to your home app, press the desired option:
 
-if __name__ == '__main__':
+1 - Add a note
+2 - Show current notes
+3 - Update a note
+4 - Delete a note
+5 - Exit app
+
+""")
+
+        nav_input = input("Choose an option: ")
+
+        match int(nav_input):
+            case 1:
+                title = input("Write the title: ")
+                body = input("Write the body: ")
+                data = get_db()
+                add_note(data, title, body)
+
+            case 2:
+                data = get_db()
+                list_active_notes(data)
+
+            case 3:
+                print("Update a note (not implemented yet).")
+
+            case 4:
+                print("Delete a note (not implemented yet).")
+
+            case 5:
+                print("Exiting app...")
+                break
+
+            case _:
+                print("Invalid option, try again.")
+
+
+if __name__ == "__main__":
     main()
