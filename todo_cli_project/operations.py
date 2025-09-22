@@ -17,6 +17,8 @@ def add_todo():
     else:
         print('Failed to add to-do')
 
+    print('-' * 30)
+
 def update_todo():
     print('-' * 30)
     print('UPDATE TASK')
@@ -41,6 +43,8 @@ def update_todo():
     else:
         print('Update canceled')
 
+    print('-' * 30)
+
 def delete_todo():
     print('-' * 30)
     print('DELETE TASK')
@@ -64,6 +68,8 @@ def delete_todo():
     else:
         print('Delete canceled')
 
+    print('-' * 30)
+
 def list_active_todos():
     todos = db_manager.get_active_todos()
 
@@ -74,8 +80,10 @@ def list_active_todos():
     for row, todo in enumerate(todos, start=1):
         print(f'[{row}] Task: {todo['task']}')
         print(f'    Created: {todo['created_at']}')
-        print(f'    Status: {todo['status']}')
+        print(f'    Status: {'Completed' if todo['is_done'] == True else 'Pending'}')
         print()
+
+    print('-' * 30)
 
 def list_completed_todos():
     todos = db_manager.get_completed_todos()
@@ -88,3 +96,5 @@ def list_completed_todos():
         print(f'[{row}] Task: {todo['task']}')
         print(f'    Created: {todo['created_at']}')
         print()
+
+    print('-' * 30)
