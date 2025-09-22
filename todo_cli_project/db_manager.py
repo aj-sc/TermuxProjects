@@ -29,7 +29,8 @@ def add_todo(task : str) -> None:
                 'task' : task,
                 'status' : 'active',
                 'is_done' : False,
-                'created_at' : datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                'created_at' : datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'completed_at' : None
                 }
 
         todos.append(new_todo)
@@ -37,22 +38,35 @@ def add_todo(task : str) -> None:
 
         return True
     except Exception as err:
-        print('Error', err)
+        print('Error: ', err)
         return False
 
-def update_todo(todo_id : int) -> None:
-    todos = get_data()
+def complete_todo(todo_id : int) -> None:
+    try:
+        todos = get_data()
 
-    todos[todo_id - 1]['is_done'] = True
-    
-    write_data(todos)
+        todos[todo_id - 1]['is_done'] = True
+        todos[todo_id - 1]['completed_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        write_data(todos)
+
+        return True
+    except Exception as err:
+        print('Error: ', err)
+        return False
 
 def delete_todo(todo_id : int) -> None:
-    todos = get_data()
+    try:
+        todos = get_data()
 
-    todos[todo_id - 1]['status'] = 'inactive'
+        todos[todo_id - 1]['status'] = 'inactive'
 
-    write_data(todos)
+        write_data(todos)
+
+        return True
+    except Exception as err:
+        print('Error: ', err)
+        return False
 
 def get_completed_todos() -> list:
     todos = get_data()
