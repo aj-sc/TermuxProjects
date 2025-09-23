@@ -1,4 +1,5 @@
 import os
+import sys
 from operations import add_todo, complete_todo, delete_todo, list_completed_todos, list_active_todos, analytics
 
 def clear_console():
@@ -20,6 +21,10 @@ def show_main_menu():
     print('6 - Show analytics')
     print('7 - Exit app')
     print('-' * 30)
+    
+def exit_program():
+    print('-' * 30)
+    sys.exit('Goodbye!')
 
 def navigation():
 
@@ -44,7 +49,7 @@ def navigation():
             case 6:
                 analytics()
             case 7:
-                break
+                exit_program()
 
         input('Press Enter to continue...')
 
