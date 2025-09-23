@@ -41,12 +41,13 @@ def add_todo(task : str) -> None:
         print('Error: ', err)
         return False
 
-def complete_todo(todo_id : int) -> None:
+def complete_todo(todo_index : int) -> None:
     try:
         todos = get_data()
+        active_todos = get_active_todos(todos)
 
-        todos[todo_id - 1]['is_done'] = True
-        todos[todo_id - 1]['completed_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        active_todos[todo_index - 1]['is_done'] = True
+        active_todos[todo_index - 1]['completed_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
         write_data(todos)
 
@@ -55,11 +56,12 @@ def complete_todo(todo_id : int) -> None:
         print('Error: ', err)
         return False
 
-def delete_todo(todo_id : int) -> None:
+def delete_todo(todo_index : int) -> None:
     try:
         todos = get_data()
+        active_todos = get_active_todos(todos)
 
-        todos[todo_id - 1]['status'] = 'inactive'
+        active_todos[todo_index - 1]['status'] = 'inactive'
 
         write_data(todos)
 
@@ -68,16 +70,14 @@ def delete_todo(todo_id : int) -> None:
         print('Error: ', err)
         return False
 
-def get_completed_todos() -> list:
-    todos = get_data()
+def get_completed_todos(todos : list = None) -> list:
+    if todos is None:
+        todos = get_data()
 
-    completed_todos = [todo for todo in todos if todo['is_done'] == True]
+    return [todo for todo in todos if todo['is_done'] == True]
 
-    return completed_todos
+def get_active_todos(todos : list = None) -> list:
+    if todos is None:
+        todos = get_data()
 
-def get_active_todos() -> list:
-    todos = get_data()
-
-    active_todos = [todo for todo in todos if todo['status'] == 'active']
-
-    return active_todos
+    return [todo for todo in todos if todo['status'] == 'active']
