@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import requests
 import json
 from datetime import date
@@ -93,16 +94,22 @@ def get_video_ids(api_key: str = API_KEY, channel_id: str = CHANNEL_ID, url: str
     
     return video_ids_list
 
+def save_file(data):
+    today = date.today()
+    
+    root_dir = Path(__file__).resolve().parents[2]
+    data_dir = root_dir/'data'
+    file_path = data_dir/f'video_data-{today}.json'
+    
+    with open(file_path, 'w', encoding='utf-8') as file:
+        json.dump(data, file, indent=4, ensure_ascii=False)
+        print('File saved successfully!')
+
 def main() -> None:
     video_ids = get_video_ids()
     video_stats_list = get_video_stats(video_ids)
     
-    today = date.today()
-    file_path = f'data/video_data-{today}.json'
-
-    with open(file_path, "w", encoding="utf-8") as file:
-        json.dump(video_stats_list, file, indent=4, ensure_ascii=False)
-        print('File created')
+    save_file(video_stats_list)
         
 if __name__ == '__main__':
     main()
