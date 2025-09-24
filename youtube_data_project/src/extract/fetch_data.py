@@ -1,5 +1,7 @@
 import os
 import requests
+import json
+from datetime import date
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -37,10 +39,10 @@ def get_video_stats(video_id: list, api_key: str = API_KEY, url: str = BASE_URL)
                         'video_title' : video.get('snippet', {}).get('title', ''),
                         'published_date' : video.get('snippet', {}).get('publishedAt', ''),
                         'duration' : video.get('contentDetails', {}).get('duration', ''),
-                        'likes' : video.get('statistics', {}).get('likeCount', 0),
-                        'views' : video.get('statistics', {}).get('viewCount', 0),
-                        'comments' : video.get('statistics', {}).get('commentCount', 0),
-                        'favorites' : video.get('statistics', {}).get('favoriteCount', 0)
+                        'likes' : video.get('statistics', {}).get('likeCount', ''),
+                        'views' : video.get('statistics', {}).get('viewCount', ''),
+                        'comments' : video.get('statistics', {}).get('commentCount', ''),
+                        'favorites' : video.get('statistics', {}).get('favoriteCount', '')
                     }
                 )
         except requests.exceptions.HTTPError as err_h:
@@ -90,3 +92,17 @@ def get_video_ids(api_key: str = API_KEY, channel_id: str = CHANNEL_ID, url: str
             print(f'Request error: {err_r}')
     
     return video_ids_list
+
+def main() -> None:
+    video_ids = get_video_ids()
+    video_stats_list = get_video_stats(video_ids)
+    
+    today = date.today()
+    file_path = f'data/video_data-{today}.json'
+
+    with open(file_path, "w", encoding="utf-8") as file:
+        json.dump(video_stats_list, file, indent=4, ensure_ascii=False)
+        print('File created')
+        
+if __name__ == '__main__':
+    main()
