@@ -2,7 +2,7 @@ dollar_exchange_project/.env
 dollar_exchange_project/dollar-venv/
 youtube_data_project/.env
 youtube_data_project/yt-venv/
-youtube_data_project/data/
+youtube_data_project/data/*.json
+youtube_data_project/data/*.db
 todo_cli_project/database.json
 todo_cli_project/__pycache__/
-dbt_test_project/dbt-venv/

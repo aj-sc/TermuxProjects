@@ -2,9 +2,11 @@ import sqlite3
 import json
 from pathlib import Path
 
+ROOT_DIR = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT_DIR/'data'
+
 def read_file():
-    folder = Path("data")
-    latest_file = max(folder.glob("*.json"), key=lambda f: f.stat().st_mtime)
+    latest_file = max(DATA_DIR.glob("*.json"), key=lambda f: f.stat().st_mtime)
     
     with open(latest_file, 'r', encoding='utf-8') as file:
         data = json.load(file)
@@ -12,7 +14,7 @@ def read_file():
     return data
 
 def get_connection():
-    conn = sqlite3.connect('data/youtube.db')
+    conn = sqlite3.connect(DATA_DIR/'raw.db')
     conn.row_factory = sqlite3.Row  # access rows like dicts
     
     return conn
@@ -22,7 +24,7 @@ def innit_db():
         cursor = conn.cursor()
         
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS videos_data (
+            CREATE TABLE IF NOT EXISTS raw_video_stats (
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 video_id TEXT UNIQUE NOT NULL,
                 video_title TEXT NOT NULL,
@@ -36,22 +38,20 @@ def innit_db():
         '''
         )
         
-    print('videos_data table created')
-    print()
+    print('Success: videos_data table created')
     
 def insert_videos(data : list):
     with get_connection() as conn:
         cursor = conn.cursor()
         
         cursor.executemany('''
-            INSERT OR REPLACE INTO videos_data (video_id, video_title, published_date, duration, likes, views, comments, favorites)
+            INSERT OR REPLACE INTO raw_video_stats (video_id, video_title, published_date, duration, likes, views, comments, favorites)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?);''',
             [(v['video_id'], v['video_title'], v['published_date'], v['duration'], v['likes'], v['views'], v['comments'], v['favorites']) 
             for v in data]
         )
     
-    print('Data inserted')
-    print()
+    print('Success: Data inserted into table')
     
 def main():
     # Get file data
