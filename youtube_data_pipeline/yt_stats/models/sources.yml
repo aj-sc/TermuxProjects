@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+    - name: raw
+      database: youtube_project 
+      schema: raw  
+      tables:
+        - name: raw_video_stats
+        - description: One row per video.
+    
+    - name: staging
+      database: youtube_project
+      schema: staging
+      tables:
+        - name: stg_video_stats

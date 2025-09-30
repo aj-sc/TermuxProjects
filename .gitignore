@@ -1,0 +1,19 @@
+# Project: Dollar exchange reminder 
+
+dollar_exchange_reminder/.env
+dollar_exchange_reminder/dollar-venv/
+dollar_exchange_reminder/__pycache__/
+
+# Project: Youtube data pipeline
+
+youtube_data_pipeline/.env
+youtube_data_pipeline/yt-venv/
+youtube_data_pipeline/data/*.json
+youtube_data_pipeline/yt_stats/dbt_packages/
+youtube_data_pipeline/yt_stats/logs/
+youtube_data_pipeline/yt_stats/target/
+
+# Project: CLI to-do app
+
+cli_todo_app/database.json
+cli_todo_app/__pycache__/
