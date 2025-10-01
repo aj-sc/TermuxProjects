@@ -9,7 +9,7 @@ bridge_table as (
 	tpv.video_id,
 	vt.topic_id
 	from tpv
-	join {{ ref('stg_video_topics') }} as vt
+	join {{ ref('stg_topics') }} as vt
 	on vt.topic_name = tpv.topic_name
 )
 
