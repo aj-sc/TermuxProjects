@@ -38,6 +38,7 @@ def get_video_stats(
         - views (str): Number of views.
         - comments (str): Number of comments.
         - favorites (str): Number of favorites.
+        - video_topics (list[str]): A list of Wikipedia URLs that provide a high-level description of the video's content.
     '''
     custom_url = f'{url}/videos'
     video_stats_list = []
