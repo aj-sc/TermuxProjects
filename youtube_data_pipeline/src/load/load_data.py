@@ -50,7 +50,8 @@ def create_objects() -> None:
                         likes TEXT NOT NULL,
                         views TEXT NOT NULL,
                         comments TEXT NOT NULL,
-                        favorites TEXT NOT NULL
+                        favorites TEXT NOT NULL,
+                        video_topics TEXT[][] NOT NULL
                     );''')
     
         print('Success, raw schema and raw_video_stats table created')
@@ -61,10 +62,10 @@ def insert_data(data : list) -> None:
     try:
         with get_connection() as conn:
             with conn.cursor() as curr:
-                rows = [(v['video_id'], v['video_title'], v['published_date'], v['duration'], v['likes'], v['views'], v['comments'], v['favorites']) for v in data]
+                rows = [(v['video_id'], v['video_title'], v['published_date'], v['duration'], v['likes'], v['views'], v['comments'], v['favorites'], v['video_topics']) for v in data]
 
                 execute_values(
-                    curr, 'INSERT INTO raw.raw_video_stats (video_id, video_title, published_date, duration, likes, views, comments, favorites) VALUES %s', rows)
+                    curr, 'INSERT INTO raw.raw_video_stats (video_id, video_title, published_date, duration, likes, views, comments, favorites, video_topics) VALUES %s', rows)
         
         print('Success, data inserted into table')
     except psycopg2.Error as err:

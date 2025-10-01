@@ -11,7 +11,34 @@ API_KEY = os.getenv('API_KEY')
 CHANNEL_ID = os.getenv('CHANNEL_ID')
 BASE_URL = 'https://www.googleapis.com/youtube/v3'
 
-def get_video_stats(video_id: list, api_key: str = API_KEY, url: str = BASE_URL) -> list:
+def get_video_stats(
+        video_id: list, 
+        api_key: str = API_KEY, 
+        url: str = BASE_URL
+        ) -> list:
+    '''
+    Retrieves statistics and metadata for one or more YouTube videos.
+
+    Sends a request to the YouTube data API in batches of up to 50 videos IDs per request, and collect statistics and other information.
+
+    Parameters:
+    -----------
+    - video_id (list[str]): A list of YouTube video IDs to fetch data for.
+    - api_key (str, optional): YouTube data API key. Defaults to the global constant 'API KEY'.
+    - url (str, optional): Base API url. Defaults to the global constant 'BASE URL'.
+
+    Returns:
+    --------
+    - list[dict]: A list of dictionaries, where each dictionary contains:
+        - video_id (str): Unique identifier of video.
+        - video_title (str): Title of the video.
+        - published_date (str): ISO 8601 date string when the video was published.
+        - duration (str): Video duration in ISO 8601 format (example: 'PT15M33S').
+        - likes (str): Number of likes.
+        - views (str): Number of views.
+        - comments (str): Number of comments.
+        - favorites (str): Number of favorites.
+    '''
     custom_url = f'{url}/videos'
     video_stats_list = []
     
@@ -22,7 +49,7 @@ def get_video_stats(video_id: list, api_key: str = API_KEY, url: str = BASE_URL)
         params = {
             'key' : api_key,
             'id' : id_string,
-            'part' : 'statistics,contentDetails,snippet'
+            'part' : 'statistics,contentDetails,snippet,topicDetails'
             }
 
         try:
@@ -43,7 +70,8 @@ def get_video_stats(video_id: list, api_key: str = API_KEY, url: str = BASE_URL)
                         'likes' : video.get('statistics', {}).get('likeCount', ''),
                         'views' : video.get('statistics', {}).get('viewCount', ''),
                         'comments' : video.get('statistics', {}).get('commentCount', ''),
-                        'favorites' : video.get('statistics', {}).get('favoriteCount', '')
+                        'favorites' : video.get('statistics', {}).get('favoriteCount', ''),
+                        'video_topics' : video.get('topicDetails', {}).get('topicCategories', [])
                     }
                 )
         except requests.exceptions.HTTPError as err_h:
@@ -51,7 +79,26 @@ def get_video_stats(video_id: list, api_key: str = API_KEY, url: str = BASE_URL)
 
     return video_stats_list
 
-def get_video_ids(api_key: str = API_KEY, channel_id: str = CHANNEL_ID, url: str = BASE_URL) -> list | None:
+def get_video_ids(
+        api_key: str = API_KEY, 
+        channel_id: str = CHANNEL_ID, 
+        url: str = BASE_URL
+        ) -> list[str]:
+    '''
+    Fetch all video IDs from a given YouTube channel using the YouTube API v3.
+
+    The function paginates throught the channel's upload, collecting all video IDs by looping page over page until no more pages are available.
+
+    Parameters:
+    -----------
+    - api_key (str, optional): YouTube API key. Defaults to 'API_KEY' constant.
+    - channel_id (str, optional): The YouTube channel ID. Defaults to 'CHANNEL_ID' constant.
+    - url (str, optional): Base url of the YouTube API. Defaults to 'BASE_URL' constant.
+
+    Returns:
+    --------
+    - list[str]: A list of YouTube video IDs that belong to the specified channel.
+    '''
     custom_url = f'{url}/search'
 
     video_ids_list = []
@@ -94,7 +141,19 @@ def get_video_ids(api_key: str = API_KEY, channel_id: str = CHANNEL_ID, url: str
     
     return video_ids_list
 
-def save_file(data):
+def save_file(data) -> None:
+    '''
+    Save data as a JSON file in the project 'data' folder with today's date.
+
+    Parameters:
+    -----------
+    - data (list[dict]): The data to be serialized and saved in JSON format.
+
+    Returns:
+    --------
+    None
+    '''
+
     today = date.today()
     
     root_dir = Path(__file__).resolve().parents[2]

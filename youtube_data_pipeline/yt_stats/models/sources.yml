@@ -3,10 +3,20 @@ version: 2
 sources:
     - name: raw
       database: youtube_project 
-      schema: raw  
+      schema: raw
+      description: 'This schema contains raw unprocessed data from the Youtube API'
       tables:
         - name: raw_video_stats
-        - description: One row per video.
+          description: 'Raw video stats and other information'
+          columns:
+            - name: video_id
+              description: 'Unique video identifier for each video.'
+            - name: published_date
+              description: 'Date in which the video was published.'
+            - name: views
+              description: 'Total numbers of views recorded for the video.'
+            - name: likes
+              description: 'Total numbers of likes recorded for the video.'
     
     - name: staging
       database: youtube_project
