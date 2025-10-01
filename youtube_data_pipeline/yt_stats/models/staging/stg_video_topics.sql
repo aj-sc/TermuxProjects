@@ -3,7 +3,7 @@ with unnested_topics as (
 	unnest(video_topics) as topic_url
 	from {{ source('raw', 'raw_video_stats') }}
 ),
-with cleaned_topics as (
+cleaned_topics as (
 	select
 	regexp_replace(
 		topic_url,

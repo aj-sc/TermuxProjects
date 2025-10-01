@@ -17,7 +17,7 @@ delete_dupes as (
 	from set_dupe_check
 	where dupe_check = 1
 ),
-unnested_data as (
+unnested_topics as (
 	select
 	video_id,
 	unnest(video_topics) as topic_url
@@ -31,7 +31,7 @@ cleaned_topics as (
 		'.*wiki/',
 		''
 	) as topic_name
-	from unnested_data
+	from unnested_topics
 )
 
 select * from cleaned_topics
