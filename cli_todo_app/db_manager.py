@@ -114,9 +114,9 @@ def db_delete_todo(todo_index : int) -> None:
     '''
     try:
         todos = get_data()
-        active_todos = get_active_todos(todos)
+        pending_todos = get_pending_todos(todos)
 
-        active_todos[todo_index - 1]['status'] = 'inactive'
+        pending_todos= [todo_index - 1]['status'] = 'inactive'
 
         write_data(todos)
 
@@ -124,6 +124,23 @@ def db_delete_todo(todo_index : int) -> None:
     except Exception as err:
         print('Error: ', err)
         return False
+
+def get_pending_todos(todos: list = None) -> list:
+    '''
+    Get a list of pending to-dos
+
+    Parameters:
+    -----------
+    - todos (list, optional): List of all to-do items. If None, fetches from database.
+
+    Returns:
+    --------
+    - list: A list of to-do items where 'is_done' is False.
+    '''
+    if todos is None:
+        todos = get_data()
+
+    return [todo for todo in todos if todo['is_done'] == False and todo['status'] == 'active']
 
 def get_completed_todos(todos : list = None) -> list:
     '''

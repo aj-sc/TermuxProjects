@@ -1,4 +1,29 @@
-from db_manager import get_data, db_add_todo, db_complete_todo, db_delete_todo, get_active_todos, get_completed_todos
+import os
+from db_manager import get_data, write_data, db_add_todo, db_complete_todo, db_delete_todo, get_active_todos, get_completed_todos, get_pending_todos
+
+def clear_console() -> None:
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
+def wipe_database() -> None:
+    clear_console()
+
+    print('-' * 30)
+    print('DELETE ALL TASKS')
+    print()
+
+    confirmation = input('Are you sure you want to delete all to-dos ?, [Y/N]: ').lower()
+    print()
+
+    if confirmation == 'y':
+        write_data([])
+        print('All to-dos were deleted')
+    else:
+        print('Operation canceled')
+
+    print('-' * 30)
 
 def add_todo() -> None:
     '''
@@ -8,6 +33,7 @@ def add_todo() -> None:
     --------
     - None, this function does not return anything. It only prints messages indicating success or failure.
     '''
+    clear_console()
 
     print('-' * 30)
     print('ADD NEW TASK')
@@ -35,8 +61,8 @@ def complete_todo() -> None:
     --------
     - None, this function does not return anything, it only prints messages indicating success or failure.
     '''
-
-    list_active_todos()
+    clear_console()
+    list_pending_todos()
 
     try:
         todo_index = int(input('Enter the number of the to-do you want to complete: '))
@@ -67,7 +93,7 @@ def delete_todo() -> None:
     --------
     - None, this function does not return anything, it only prints messages indicating success or failure.
     '''
-
+    clear_console()
     list_active_todos()
 
     try:
@@ -98,6 +124,7 @@ def list_active_todos() -> None:
     --------
     - None, this function does not return anything, it only prints messages indicating success or failure.
     '''
+    clear_console()
 
     todos = get_data()
     active_todos = get_active_todos(todos)
@@ -116,6 +143,30 @@ def list_active_todos() -> None:
 
     print('-' * 30)
 
+def list_pending_todos() -> None:
+    '''
+    Prints a list of active pending to-dos. It calls get_pending_todos() from db_manager to get the to-do data.
+
+    Returns:
+    --------
+    - None, this function does not return anything, it only prints messages indicating success or failure.
+    '''
+    clear_console()
+
+    todos = get_data()
+    pending_todos = get_pending_todos()
+
+    print('-' * 30)
+    print('PENDING TASKS')
+    print()
+
+    for row, todo in enumerate(pending_todos, start=1):
+        print(f'[{row}] Task: {todo['task']}')
+        print(f'    Created: {todo['created_at']    }')
+        print()
+
+    print('-' * 30)
+
 def list_completed_todos() -> None:
     '''
     Prints a list of active completed to-dos. It calls get_completed_todos() from db_manager to get the to-do data.
@@ -124,6 +175,7 @@ def list_completed_todos() -> None:
     --------
     - None, this function does not return anything, it only prints messages indicating success or failure.
     '''
+    clear_console()
 
     todos = get_data()
     completed_todos = get_completed_todos(todos)
@@ -148,6 +200,7 @@ def analytics():
     --------
     - None, this function does not return anything, it prints the analytics directly to the console.
     '''
+    clear_console()
 
     todos = get_data()
     active_todos = len(get_active_todos(todos))

@@ -1,20 +1,5 @@
-import os
 import sys
-from operations import add_todo, complete_todo, delete_todo, list_completed_todos, list_active_todos, analytics
-
-def clear_console() -> None:
-    '''
-    Clears consolo output to improve user experience and readability. Uses appropiate command depending on the operating system: 'cls' for Windows and 'clear' for Linux/MacOS.
-
-    Returns:
-    --------
-    - None
-    '''
-
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
+from operations import add_todo, complete_todo, delete_todo, list_completed_todos, list_active_todos, analytics, clear_console, wipe_database
 
 def show_main_menu() -> None:
     '''
@@ -34,7 +19,8 @@ def show_main_menu() -> None:
     print('4 - Show active to-dos')
     print('5 - Show completed to-dos')
     print('6 - Show analytics')
-    print('7 - Exit app')
+    print('7 - Delete all to-dos')
+    print('8 - Exit app')
     print('-' * 30)
     
 def exit_program() -> None:
@@ -78,6 +64,8 @@ def navigation() -> None:
             case 6:
                 analytics()
             case 7:
+                wipe_database()
+            case 8:
                 exit_program()
 
         input('Press Enter to continue...')
