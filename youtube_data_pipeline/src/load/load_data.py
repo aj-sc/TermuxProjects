@@ -41,7 +41,7 @@ def create_objects() -> None:
                 curr.execute('''
                     DROP SCHEMA IF EXISTS raw CASCADE;
                     CREATE SCHEMA raw;
-                    CREATE TABLE raw.raw_video_stats (
+                    CREATE TABLE raw.raw_video_info (
                         id serial PRIMARY KEY,
                         video_id TEXT NOT NULL,
                         video_title TEXT NOT NULL,
@@ -54,7 +54,7 @@ def create_objects() -> None:
                         video_topics TEXT[][] NOT NULL
                     );''')
     
-        print('Success, raw schema and raw_video_stats table created')
+        print('Success, raw schema and raw_video_info table created')
     except psycopg2.Error as err:
         print(f'Failed to create objects: {err}')
 
@@ -65,7 +65,7 @@ def insert_data(data : list) -> None:
                 rows = [(v['video_id'], v['video_title'], v['published_date'], v['duration'], v['likes'], v['views'], v['comments'], v['favorites'], v['video_topics']) for v in data]
 
                 execute_values(
-                    curr, 'INSERT INTO raw.raw_video_stats (video_id, video_title, published_date, duration, likes, views, comments, favorites, video_topics) VALUES %s', rows)
+                    curr, 'INSERT INTO raw.raw_video_info (video_id, video_title, published_date, duration, likes, views, comments, favorites, video_topics) VALUES %s', rows)
         
         print('Success, data inserted into table')
     except psycopg2.Error as err:
@@ -76,7 +76,7 @@ def check_records():
         with get_connection() as conn:
             with conn.cursor() as curr:
                 curr.execute('''
-                    SELECT count(*) AS total_videos, count(distinct video_id) as unique_videos FROM raw.raw_video_stats;''')
+                    SELECT count(*) AS total_videos, count(distinct video_id) as unique_videos FROM raw.raw_video_info;''')
 
                 data = curr.fetchone()
                 
