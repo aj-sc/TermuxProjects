@@ -12,11 +12,19 @@ sources:
             - name: video_id
               tests: ['unique', 'not_null']
               description: 'Unique video identifier for each video.'
+            - name: video_title
+              description: 'The video title'
             - name: published_date
               description: 'Date in which the video was published.'
+            - name: duration
+              description: 'The length of the video. The property value is an ISO 8601 duration.'
             - name: views
               description: 'Total numbers of views recorded for the video.'
             - name: likes
               description: 'Total numbers of likes recorded for the video.'
+            - name: comments
+              description: 'Total numbers of comments recorded for the video.'
+            - name: favorites
+              description: 'Total numbers of favorites recorded for the video.'
             - name: video_topics
               description: 'Array containing Wikipedia links that describe the video.'

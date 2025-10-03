@@ -5,6 +5,7 @@ with source as (
 ),
 
 cleaned as (
+
     select
 	-- identifier
 	video_id,
@@ -28,6 +29,7 @@ cleaned as (
 	video_topics
 
     from source
+	
 ),
 
 final as (
