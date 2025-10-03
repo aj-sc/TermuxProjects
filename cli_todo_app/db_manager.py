@@ -88,10 +88,10 @@ def db_complete_todo(todo_index : int) -> bool:
     '''
     try:
         todos = get_data()
-        active_todos = get_active_todos(todos)
+        pending_todos = get_pending_todos(todos)
 
-        active_todos[todo_index - 1]['is_done'] = True
-        active_todos[todo_index - 1]['completed_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        pending_todos[todo_index - 1]['is_done'] = True
+        pending_todos[todo_index - 1]['completed_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
         write_data(todos)
 
@@ -114,9 +114,9 @@ def db_delete_todo(todo_index : int) -> None:
     '''
     try:
         todos = get_data()
-        pending_todos = get_pending_todos(todos)
+        active_todos = get_active_todos(todos)
 
-        pending_todos= [todo_index - 1]['status'] = 'inactive'
+        active_todos[todo_index - 1]['status'] = 'inactive'
 
         write_data(todos)
 

@@ -9,19 +9,26 @@ def clear_console() -> None:
 
 def wipe_database() -> None:
     clear_console()
+    
+    todos = get_data()
+    active_todos = get_active_todos(todos)
 
     print('-' * 30)
-    print('DELETE ALL TASKS')
-    print()
+    
+    if active_todos:
+        print('DELETE ALL TASKS')
+        print()
 
-    confirmation = input('Are you sure you want to delete all to-dos ?, [Y/N]: ').lower()
-    print()
+        confirmation = input('Are you sure you want to delete all to-dos ?, [Y/N]: ').lower()
+        print()
 
-    if confirmation == 'y':
-        write_data([])
-        print('All to-dos were deleted')
+        if confirmation == 'y':
+            write_data([])
+            print('All to-dos were deleted')
+        else:
+            print('Operation canceled')
     else:
-        print('Operation canceled')
+        print('The database is empty, what about adding some to-dos first ?')
 
     print('-' * 30)
 
@@ -130,16 +137,20 @@ def list_active_todos() -> None:
     active_todos = get_active_todos(todos)
 
     print('-' * 30)
-    print('CURRENT TASKS')
-    print()
-
-    for row, todo in enumerate(active_todos, start=1):
-        print(f'[{row}] Task: {todo['task']}')
-        print(f'    Status: {'Completed' if todo['is_done'] == True else 'Pending'}')
-        print(f'    Created: {todo['created_at']}')
-        if todo['completed_at'] is not None:
-            print(f'    Completed: {todo['completed_at']}')
+    
+    if active_todos:
+        print('CURRENT TASKS')
         print()
+
+        for row, todo in enumerate(active_todos, start=1):
+            print(f'[{row}] Task: {todo['task']}')
+            print(f'    Status: {'Completed' if todo['is_done'] == True else 'Pending'}')
+            print(f'    Created: {todo['created_at']}')
+            if todo['completed_at'] is not None:
+                print(f'    Completed: {todo['completed_at']}')
+            print()
+    else:
+        print('There are not actives tasks available, what about adding some to-dos first ?')
 
     print('-' * 30)
 
@@ -154,16 +165,20 @@ def list_pending_todos() -> None:
     clear_console()
 
     todos = get_data()
-    pending_todos = get_pending_todos()
-
+    pending_todos = get_pending_todos(todos)
+    
     print('-' * 30)
-    print('PENDING TASKS')
-    print()
-
-    for row, todo in enumerate(pending_todos, start=1):
-        print(f'[{row}] Task: {todo['task']}')
-        print(f'    Created: {todo['created_at']    }')
+    
+    if pending_todos:
+        print('PENDING TASKS')
         print()
+
+        for row, todo in enumerate(pending_todos, start=1):
+            print(f'[{row}] Task: {todo['task']}')
+            print(f'    Created: {todo['created_at']    }')
+            print()
+    else:
+        print('There are no pending tasks available')
 
     print('-' * 30)
 
@@ -181,14 +196,18 @@ def list_completed_todos() -> None:
     completed_todos = get_completed_todos(todos)
 
     print('-' * 30)
-    print('COMPLETED TASKS')
-    print()
-
-    for row, todo in enumerate(completed_todos, start=1):
-        print(f'[{row}] Task: {todo['task']}')
-        print(f'    Created: {todo['created_at']}')
-        print(f'    Completed: {todo['completed_at']}')
+    
+    if completed_todos:
+        print('COMPLETED TASKS')
         print()
+
+        for row, todo in enumerate(completed_todos, start=1):
+            print(f'[{row}] Task: {todo['task']}')
+            print(f'    Created: {todo['created_at']}')
+            print(f'    Completed: {todo['completed_at']}')
+            print()
+    else:
+        print('No tasks have been completed')
 
     print('-' * 30)
 
