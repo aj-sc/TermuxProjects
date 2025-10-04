@@ -15,9 +15,9 @@ def set_date_limit() -> str:
     day_number = date_limit.isoweekday()
 
     if day_number == 7:
-        date_limit -= timedelta(days=2)
+        date_limit += timedelta(days=1)
     elif day_number == 6:
-        date_limit -= timedelta(days=1)
+        date_limit += timedelta(days=2)
 
     formatted_date_limit = date_limit.strftime('%Y-%m-%dT00:00:00.000')
 
