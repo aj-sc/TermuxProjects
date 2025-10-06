@@ -58,7 +58,7 @@ class JsonManager:
         pending_records[record_id - 1]['is_done'] = True
         pending_records[record_id - 1]['completed_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-        self.write_records(records)
+        self.write_to_database(records)
 
     def delete_record(self, record_id):
         records = self.read_database()
