@@ -1,15 +1,5 @@
-from datetime import datetime
-
 class Todo:
-    def __init__(
-            self, 
-            todo_id, 
-            task, 
-            status = 'active', 
-            is_done = False, 
-            created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
-            completed_at = None
-        ):
+    def __init__(self, todo_id, task, status, is_done, created_at, completed_at):
         self.todo_id = todo_id
         self.task = task
         self.status = status
@@ -26,4 +16,3 @@ class Todo:
             'created_at' : self.created_at,
             'completed_at' : self.completed_at
         }
-        
