@@ -17,3 +17,7 @@ youtube_data_pipeline/yt_stats/target/
 
 cli_todo_app/database.json
 cli_todo_app/__pycache__/
+
+# Orders taker
+
+orders_taker/favenv/
